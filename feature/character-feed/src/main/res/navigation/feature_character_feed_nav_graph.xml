@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/feature_character_feed_nav_graph"
+    app:startDestination="@id/feature_character_feed_characterfeedfragment">
+
+    <fragment
+        android:id="@+id/feature_character_feed_characterfeedfragment"
+        android:name="com.rcolejnr.rickmorty.feature.character.feed.CharacterFeedFragment"
+        android:label="CharacterFeedFragment" />
+</navigation>

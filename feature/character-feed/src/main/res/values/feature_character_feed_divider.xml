@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="feature_character_feed_divider">
+        <item name="android:background">?android:attr/listDivider</item>
+        // can add color here
+    </style>
+
+    <style name="feature_character_feed_divider.Vertical" parent="feature_character_feed_divider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+</resources>
