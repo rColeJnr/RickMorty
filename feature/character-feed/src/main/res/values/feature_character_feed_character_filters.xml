@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="feature_character_feed_character_filters">
+        <item> </item>
+        <item>NameRick</item>
+        <item>NameMorty</item>
+        <item>StatusAlive</item>
+        <item>StatusDead</item>
+        <item>GenreMale</item>
+        <item>GenreFemale</item>
+    </string-array>
+</resources>
