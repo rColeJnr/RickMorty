@@ -4,14 +4,13 @@ import androidx.paging.PagingData
 import com.rcolejnr.rickmorty.core.database.model.RMCharacterEntity
 import com.rcolejnr.rickmorty.core.database.model.RMEpisodeEntity
 import com.rcolejnr.rickmorty.core.database.model.RMLocationEntity
+import com.rcolejnr.rickmorty.core.model.CharacterFilters
 import com.rcolejnr.rickmorty.core.model.RMCharacter
 import kotlinx.coroutines.flow.Flow
 
 interface CharacterRepository {
     fun fetchCharacters(
-        name: String?,
-        status: String?,
-        gender: String?
+        characterFilters: CharacterFilters
     ): Flow<PagingData<RMCharacterEntity>>
 
     fun fetchCharacterFavorites(

@@ -1,6 +1,7 @@
 package com.rcolejnr.rickmorty.core.data.repository
 
 import com.rcolejnr.rickmorty.core.datastore.PreferencesDataSource
+import com.rcolejnr.rickmorty.core.model.CharacterFilters
 import com.rcolejnr.rickmorty.core.model.DarkThemeConfig
 import com.rcolejnr.rickmorty.core.model.UserData
 import kotlinx.coroutines.flow.Flow
@@ -19,5 +20,9 @@ internal class UserDataRepositoryImpl @Inject constructor(
 
     override suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
         preferencesDataSource.setDarkThemeConfig(darkThemeConfig)
+    }
+
+    override suspend fun setCharacterFilter(characterFilter: CharacterFilters) {
+        preferencesDataSource.setCharacterFilter(characterFilter)
     }
 }

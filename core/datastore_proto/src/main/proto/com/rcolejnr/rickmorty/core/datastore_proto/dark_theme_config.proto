@@ -9,4 +9,6 @@ enum DarkThemeConfigProto {
     DARK_THEME_CONFIG_FOLLOW_SYSTEM = 1;
     DARK_THEME_CONFIG_LIGHT = 2;
     DARK_THEME_CONFIG_DARK = 3;
+
+    //Next available 4
 }

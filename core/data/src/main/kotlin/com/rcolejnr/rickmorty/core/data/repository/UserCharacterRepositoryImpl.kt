@@ -1,10 +1,13 @@
 package com.rcolejnr.rickmorty.core.data.repository
 
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.rcolejnr.rickmorty.core.database.model.asRMCharacter
+import com.rcolejnr.rickmorty.core.model.CharacterFilters
 import com.rcolejnr.rickmorty.core.model.UserRMCharacter
 import com.rcolejnr.rickmorty.core.model.mapToUserRMCharacter
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -18,15 +21,16 @@ internal class UserCharacterRepositoryImpl @Inject constructor(
     private val userDataRepository: UserDataRepository
 ): UserCharacterRepository {
     override fun observeCharacters(
-        name: String?,
-        status: String?,
-        genre: String?
-    ): Flow<PagingData<UserRMCharacter>> =
-        characterRepository.fetchCharacters(
-            name, status, genre
-        ).combine(userDataRepository.userData) { characters, userData ->
+        scope: CoroutineScope,
+        characterFilter: CharacterFilters
+    ): Flow<PagingData<UserRMCharacter>> {
+        return characterRepository.fetchCharacters(
+            characterFilter
+        ).cachedIn(scope)
+            .combine(userDataRepository.userData) { characters, userData ->
             characters.map { it.asRMCharacter().mapToUserRMCharacter(userData) }
         }
+    }
 
     override fun observeCharacterFavorites(): Flow<List<UserRMCharacter>> =
         userDataRepository.userData.map { it.characterFavorites }.distinctUntilChanged()

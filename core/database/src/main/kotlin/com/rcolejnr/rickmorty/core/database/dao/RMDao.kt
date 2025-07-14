@@ -18,10 +18,10 @@ interface RMDao {
 
     @Query(
         value = """
-            DELETE FROM character_table WHERE id in (:id)
+            DELETE FROM character_table
         """
     )
-    suspend fun clearCharacters(id: List<Int>)
+    suspend fun clearCharacters()
 
     @Query(
         value = """

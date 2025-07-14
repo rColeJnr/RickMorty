@@ -12,6 +12,7 @@ import com.rcolejnr.rickmorty.core.database.model.RMCharacterEntity
 import com.rcolejnr.rickmorty.core.database.model.RMEpisodeEntity
 import com.rcolejnr.rickmorty.core.database.model.RMLocationEntity
 import com.rcolejnr.rickmorty.core.database.model.asRMCharacter
+import com.rcolejnr.rickmorty.core.model.CharacterFilters
 import com.rcolejnr.rickmorty.core.model.RMCharacter
 import com.rcolejnr.rickmorty.core.network.RMDataSourceNetwork
 import kotlinx.coroutines.flow.Flow
@@ -25,21 +26,36 @@ import javax.inject.Inject
 internal class CharacterRepositoryImpl @Inject constructor(
     private val rmDao: RMDao,
     private val remoteKeysDao: RMCharacterRemoteKeysDao,
-    private val network: RMDataSourceNetwork
+    private val network: RMDataSourceNetwork,
+    private val userDataRepository: UserDataRepository
 ): CharacterRepository {
 
     override fun fetchCharacters(
-        name: String?,
-        status: String?,
-        gender: String?
+        characterFilters: CharacterFilters
     ): Flow<PagingData<RMCharacterEntity>> {
+        var name = ""
+        var status = ""
+        var gender = ""
+        when (characterFilters) {
+            CharacterFilters.RICK, CharacterFilters.MORTY -> {
+                name = characterFilters.filter
+            }
+            CharacterFilters.DEAD, CharacterFilters.ALIVE -> {
+                status = characterFilters.filter
+            }
+            CharacterFilters.MALE, CharacterFilters.FEMALE -> {
+                gender = characterFilters.filter
+            }
+            CharacterFilters.NO_FILTER -> {}
+        }
+
         val pagingSourceFactory = { rmDao.getCharacters(
-            filterByName = !name.isNullOrEmpty(),
-            name = name ?: "",
-            filterByStatus = !status.isNullOrEmpty(),
-            status = status ?: "",
-            filterByGender = !gender.isNullOrEmpty(),
-            gender = gender ?: ""
+            filterByName = name.isNotEmpty(),
+            name = name,
+            filterByStatus = status.isNotEmpty(),
+            status = status,
+            filterByGender = gender.isNotEmpty(),
+            gender = gender
         ) }
 
         @OptIn(ExperimentalPagingApi::class)
@@ -54,9 +70,7 @@ internal class CharacterRepositoryImpl @Inject constructor(
                 network = network,
                 rmDao = rmDao,
                 rmRemoteKeysDao = remoteKeysDao,
-                name = name,
-                status = status,
-                gender = gender
+                userDataRepository = userDataRepository
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
