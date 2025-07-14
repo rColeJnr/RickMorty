@@ -10,4 +10,9 @@ android {
 
 dependencies {
     api(projects.core.model)
+
+    implementation(libs.room.paging)
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.kotlinx.coroutines.core)
+    api(libs.kotlinx.datetime)
 }

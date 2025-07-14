@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+import "com/rcolejnr/rickmorty/core/datastore_proto/dark_theme_config.proto";
+
+
+option java_package = "com.rcolejnr.rickmorty.core.datastore";
+option java_multiple_files = true;
+
+message UserPreferences {
+    map<int32, bool> character_favorite_ids = 1;
+    DarkThemeConfigProto dark_theme_config_proto = 2;
+}

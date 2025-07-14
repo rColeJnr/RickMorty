@@ -24,10 +24,11 @@ rootProject.name = "RickMorty"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
 
+include(":core:common")
 include(":core:data")
 include(":core:database")
 include(":core:datastore")
-include(":core:datastore-proto")
+include(":core:datastore_proto")
 include(":core:domain")
 include(":core:model")
 include(":core:network")

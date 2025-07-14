@@ -8,5 +8,10 @@ android {
 }
 
 dependencies {
+    api(projects.core.model)
 
+    api(libs.square.retrofit)
+    api(libs.square.okhttp)
+    api(libs.square.logging.interceptor)
+    api(libs.square.converter.gson)
 }

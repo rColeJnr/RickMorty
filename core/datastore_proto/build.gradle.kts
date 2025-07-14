@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rcolejnr.rickmorty.core.datastore.proto"
+    namespace = "com.rcolejnr.rickmorty.core.datastore_proto"
 }
 // Setup protobuf configuration, generating lite Java and Kotlin classes
 protobuf {
