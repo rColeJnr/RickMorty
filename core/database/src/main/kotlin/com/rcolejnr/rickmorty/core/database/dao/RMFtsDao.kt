@@ -12,7 +12,7 @@ interface RMFtsDao {
     suspend fun upsertCharacters(characters: List<RMCharacterFtsEntity>)
 
     @Query("SELECT characterId FROM character_fts_table WHERE character_fts_table MATCH :query")
-    fun searchAllCharacters(query: String): Flow<List<String>>
+    fun searchAllCharacters(query: String): Flow<List<Int>>
 
     @Query("SELECT count(*) FROM character_fts_table")
     fun getCount(): Flow<Int>

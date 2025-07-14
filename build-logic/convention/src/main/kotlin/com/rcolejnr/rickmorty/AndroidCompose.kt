@@ -11,6 +11,9 @@ internal fun Project.configureAndroidCompose(
         buildFeatures {
             compose = true
         }
+        composeOptions {
+            kotlinCompilerExtensionVersion = libs.findVersion("compose").get().toString()
+        }
 
         dependencies {
             val bom = libs.findLibrary("compose.bom").get()

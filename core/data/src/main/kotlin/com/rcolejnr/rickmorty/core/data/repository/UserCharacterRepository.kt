@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserCharacterRepository {
 
-    fun observeAll(
+    fun observeCharacters(
         name: String?,
         status: String?,
         genre: String?

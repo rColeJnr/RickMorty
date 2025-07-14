@@ -21,11 +21,11 @@ tasks.withType<KotlinCompile>().configureEach {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.android.tools.common.gradlePlugin)
+    compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.room.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
     compileOnly(libs.navigation.safeargs.gradlePlugin)
-//    compileOnly(libs.android.ui.android.gradlePlugin)
 }
 
 tasks {
@@ -56,6 +56,10 @@ gradlePlugin {
         register("androidFeature") {
             id = "rmapp.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
+        }
+        register("androidComposeFeature") {
+            id = "rmapp.android.compose.feature"
+            implementationClass = "AndroidComposeFeatureConventionPlugin"
         }
         register("androidHilt") {
             id = "rmapp.android.hilt"

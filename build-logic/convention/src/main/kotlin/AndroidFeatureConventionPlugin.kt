@@ -11,7 +11,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("rmapp.android.library")
-                apply("rmapp.hilt")
+                apply("rmapp.android.hilt")
             }
 
             extensions.configure<LibraryExtension> {
@@ -25,6 +25,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("kotlinx.coroutines.core").get())
                 add("implementation", libs.findLibrary("android.material").get())
                 add("implementation", libs.findLibrary("lifecycle.viewmodel").get())
+                add("implementation", libs.findLibrary("androidx.navigation.fragment").get())
+                add("implementation", libs.findLibrary("androidx.navigation.ui").get())
                 add("implementation", libs.findLibrary("bumptech.glide").get())
             }
         }

@@ -8,5 +8,6 @@ fun RMLocationNetwork.asEntity() = RMLocationEntity(
     name = name,
     type = type,
     dimension = dimension,
+    residents = residents,
     created = created
 )

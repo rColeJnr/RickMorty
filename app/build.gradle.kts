@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.rmapp.android.application)
+    alias(libs.plugins.rmapp.android.application.compose)
     alias(libs.plugins.rmapp.android.hilt)
     alias(libs.plugins.rmapp.android.navigation)
 }
@@ -27,6 +28,7 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
     buildFeatures {
+        compose = true
         viewBinding = true
     }
     namespace = "com.rcolejnr.rickmorty"
@@ -34,11 +36,11 @@ android {
 
 dependencies {
 
+    implementation(projects.feature.characterFeed)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.android.material)
     implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
 
     ksp(libs.hilt.compiler)
 

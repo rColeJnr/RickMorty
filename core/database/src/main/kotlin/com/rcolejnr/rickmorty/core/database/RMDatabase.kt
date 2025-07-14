@@ -2,6 +2,7 @@ package com.rcolejnr.rickmorty.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.rcolejnr.rickmorty.core.database.dao.RMCharacterRemoteKeysDao
 import com.rcolejnr.rickmorty.core.database.dao.RMDao
 import com.rcolejnr.rickmorty.core.database.dao.RMFtsDao
@@ -24,6 +25,9 @@ import com.rcolejnr.rickmorty.core.database.model.RecentSearchQueryEntity
     ],
     version = 1,
     exportSchema = true
+)
+@TypeConverters(
+    RMTypeConverters::class
 )
 abstract class RMDatabase: RoomDatabase() {
 

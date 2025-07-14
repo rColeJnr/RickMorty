@@ -7,5 +7,6 @@ fun RMEpisodeNetwork.asEntity() = RMEpisodeEntity(
     id = id,
     name = name,
     released = released,
+    characters = characters,
     episode = episode
 )

@@ -17,7 +17,7 @@ internal class UserCharacterRepositoryImpl @Inject constructor(
     private val characterRepository: CharacterRepository,
     private val userDataRepository: UserDataRepository
 ): UserCharacterRepository {
-    override fun observeAll(
+    override fun observeCharacters(
         name: String?,
         status: String?,
         genre: String?
