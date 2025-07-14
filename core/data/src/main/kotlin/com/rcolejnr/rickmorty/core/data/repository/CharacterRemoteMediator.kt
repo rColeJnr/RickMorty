@@ -1,5 +1,6 @@
 package com.rcolejnr.rickmorty.core.data.repository
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -31,6 +32,7 @@ class CharacterRemoteMediator(
         val page = when (loadType) {
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
+                Log.d("Errorrr", "appending ${remoteKeys?.nextKey}")
                 val nextKey = remoteKeys?.nextKey
                     ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
                 nextKey
@@ -38,7 +40,7 @@ class CharacterRemoteMediator(
 
             LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
 
-            LoadType.REFRESH -> null
+            LoadType.REFRESH -> return MediatorResult.Success(endOfPaginationReached = false)
         }
 
         try {
@@ -49,7 +51,7 @@ class CharacterRemoteMediator(
                 gender = gender
             )
             val characters = response.results
-            val endOfPaginationReached = page == 3
+            val endOfPaginationReached = false
 
             if (loadType == LoadType.REFRESH) {
                 val ids = characters.map(RMCharacterNetwork::id)
