@@ -1,5 +1,6 @@
 package com.rcolejnr.rickmorty.feature.character.feed
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -50,6 +51,8 @@ class CharacterFeedFragment: Fragment() {
 
         binding.bindSpinner()
 
+        binding.bindSearch()
+
         return binding.root
     }
 
@@ -68,6 +71,8 @@ class CharacterFeedFragment: Fragment() {
 
     private fun onCharacterClick(id: Int) {
         Toast.makeText(context, "Hey there 🙂 $id", Toast.LENGTH_LONG).show()
+        val uri = Uri.parse("com.rcolejnr.rmapp://character_fragment/$id")
+        navController.navigate(uri)
     }
 
     private fun FeatureCharacterFeedFragmentCharacterFeedBinding.bindList(
@@ -120,6 +125,13 @@ class CharacterFeedFragment: Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 //Do nothing
             }
+        }
+    }
+
+    private fun FeatureCharacterFeedFragmentCharacterFeedBinding.bindSearch() {
+        search.setOnClickListener {
+            val uri = Uri.parse("com.rcolejnr.rmapp://search_fragment")
+            navController.navigate(uri)
         }
     }
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feature_search_nav_graph"
+    app:startDestination="@id/feature_search_searchfragment">
+
+    <fragment
+        android:id="@+id/feature_search_searchfragment"
+        android:name="com.rcolejnr.rickmorty.feature.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/feature_search_fragment_search">
+        <deepLink app:uri="com.rcolejnr.rmapp://search_fragment"/>
+    </fragment>
+</navigation>

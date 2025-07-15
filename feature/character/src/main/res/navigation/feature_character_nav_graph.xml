@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feature_character_nav_graph"
+    app:startDestination="@id/feature_character_characterfragment">
+
+    <fragment
+        android:id="@+id/feature_character_characterfragment"
+        android:name="com.rcolejnr.rickmorty.feature.character.CharacterFragment"
+        android:label="CharacterFragment"
+        tools:layout="@layout/feature_character_fragment_character">
+        <argument
+            android:name="character"
+            app:argType="integer"/>
+        <deepLink app:uri="com.rcolejnr.rmapp://character_fragment/{character}"/>
+    </fragment>
+</navigation>

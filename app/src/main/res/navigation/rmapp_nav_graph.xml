@@ -4,4 +4,9 @@
     android:id="@+id/rmapp_nav_graph"
     app:startDestination="@id/feature_character_feed_nav_graph">
     <include app:graph="@navigation/feature_character_feed_nav_graph" />
+    <include app:graph="@navigation/feature_character_nav_graph" />
+    <include app:graph="@navigation/feature_episode_nav_graph" />
+    <include app:graph="@navigation/feature_favorites_nav_graph" />
+    <include app:graph="@navigation/feature_location_nav_graph" />
+    <include app:graph="@navigation/feature_search_nav_graph" />
 </navigation>

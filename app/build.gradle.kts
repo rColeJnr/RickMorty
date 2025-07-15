@@ -36,7 +36,12 @@ android {
 
 dependencies {
 
+    implementation(projects.feature.character)
     implementation(projects.feature.characterFeed)
+    implementation(projects.feature.episode)
+    implementation(projects.feature.favorites)
+    implementation(projects.feature.location)
+    implementation(projects.feature.search)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

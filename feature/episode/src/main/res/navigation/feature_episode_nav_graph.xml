@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feature_episode_nav_graph"
+    app:startDestination="@id/feature_episode_episodefragment">
+
+    <fragment
+        android:id="@+id/feature_episode_episodefragment"
+        android:name="com.rcolejnr.rickmorty.feature.episode.EpisodeFragment"
+        android:label="EpisodeFragment"
+        tools:layout="@layout/feature_episode_fragment_episode">
+        <argument
+            android:name="episode"
+            app:argType="integer"/>
+        <deepLink app:uri="com.rcolejnr.rmapp://episode_fragment/{episode}"/>
+    </fragment>
+</navigation>

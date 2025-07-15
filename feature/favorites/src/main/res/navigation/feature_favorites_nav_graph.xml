@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feature_favorites_nav_graph"
+    app:startDestination="@id/feature_favorites_favoritesfragment">
+
+    <fragment
+        android:id="@+id/feature_favorites_favoritesfragment"
+        android:name="com.rcolejnr.rickmorty.feature.favorites.FavoritesFragment"
+        android:label="FavoritesFragment"
+        tools:layout="@layout/feature_favorites_fragment_favorites">
+        <deepLink app:uri="com.rcolejnr.rmapp://favorites_fragment"/>
+    </fragment>
+</navigation>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feature_location_nav_graph"
+    app:startDestination="@id/feature_location_locationfragment">
+
+    <fragment
+        android:id="@+id/feature_location_locationfragment"
+        android:name="com.rcolejnr.rickmorty.feature.location.LocationFragment"
+        android:label="LocationFragment"
+        tools:layout="@layout/feature_location_fragment_location">
+        <argument
+            android:name="location"
+            app:argType="integer"/>
+        <deepLink app:uri="com.rcolejnr.rmapp://location_fragment/{location}"/>
+    </fragment>
+</navigation>
