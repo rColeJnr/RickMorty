@@ -1,5 +1,6 @@
 package com.rcolejnr.rickmorty.feature.character
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rcolejnr.rickmorty.core.model.UserRMCharacter
@@ -82,6 +84,7 @@ private fun CharacterScreen(
     character: UserRMCharacter,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     Column(modifier = modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -94,7 +97,11 @@ private fun CharacterScreen(
                 )
             }
             RMHeadlineText(character.name)
-            IconButton(onClick = { onFavoriteClick(character.id, character.isFavorite) }) {
+            IconButton(onClick = { 
+                onFavoriteClick(character.id, character.isFavorite)
+                Toast.makeText(context,
+                    context.getString(R.string.feature_character_updated_favorite_status), Toast.LENGTH_SHORT).show()
+            }) {
                 if (character.isFavorite)
                     Icon(imageVector = Icons.Filled.Favorite, contentDescription = null, tint = Color.Red)
                 else
@@ -116,7 +123,9 @@ private fun CharacterScreen(
         ) {
             Column (
                 verticalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxSize().padding(16.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
             ) {
                 RMLargeText("Species: ${character.species}")
                 RMLargeText("Type: ${character.type}")
