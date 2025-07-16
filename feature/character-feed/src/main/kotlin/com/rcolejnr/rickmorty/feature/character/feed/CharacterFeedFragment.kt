@@ -52,6 +52,8 @@ class CharacterFeedFragment: Fragment() {
 
         binding.bindSearch()
 
+        binding.bindFavorites()
+
         return binding.root
     }
 
@@ -66,11 +68,6 @@ class CharacterFeedFragment: Fragment() {
             adapter.withLoadStateFooter(footer = CharacterLoadStateAdapter { adapter.retry() })
 
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
-    }
-
-    private fun onCharacterClick(id: Int) {
-        val uri = Uri.parse("com.rcolejnr.rmapp://character_fragment/$id")
-        navController.navigate(uri)
     }
 
     private fun FeatureCharacterFeedFragmentCharacterFeedBinding.bindList(
@@ -131,6 +128,18 @@ class CharacterFeedFragment: Fragment() {
             val uri = Uri.parse("com.rcolejnr.rmapp://search_fragment")
             navController.navigate(uri)
         }
+    }
+
+    private fun FeatureCharacterFeedFragmentCharacterFeedBinding.bindFavorites() {
+        favorites.setOnClickListener {
+            val uri = Uri.parse("com.rcolejnr.rmapp://favorites_fragment")
+            navController.navigate(uri)
+        }
+    }
+
+    private fun onCharacterClick(id: Int) {
+        val uri = Uri.parse("com.rcolejnr.rmapp://character_fragment/$id")
+        navController.navigate(uri)
     }
 
     override fun onDestroy() {

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_character_feed_search_for_a_character">Search for a character</string>
+    <string name="feature_character_feed_filter_by">Filter by:</string>
+</resources>
