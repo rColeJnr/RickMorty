@@ -1,8 +1,6 @@
 package com.rcolejnr.rickmorty.core.data.repository
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
-import androidx.paging.LoadState.Loading.endOfPaginationReached
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
@@ -15,7 +13,6 @@ import com.rcolejnr.rickmorty.core.model.CharacterFilters
 import com.rcolejnr.rickmorty.core.network.RMDataSourceNetwork
 import com.rcolejnr.rickmorty.core.network.model.RMCharacterNetwork
 import com.rcolejnr.rickmorty.core.network.model.RMCharacterResponse
-import kotlinx.coroutines.flow.collectLatest
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -24,7 +21,7 @@ class CharacterRemoteMediator(
     private val rmDao: RMDao,
     private val rmRemoteKeysDao: RMCharacterRemoteKeysDao,
     private val network: RMDataSourceNetwork,
-    private val userDataRepository: UserDataRepository
+    private val characterFilter: CharacterFilters
 ): RemoteMediator<Int, RMCharacterEntity>() {
 
     override suspend fun load(
@@ -34,7 +31,6 @@ class CharacterRemoteMediator(
         val page = when (loadType) {
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
-                Log.d("Errorrr", "appending ${remoteKeys?.nextKey}")
                 val nextKey = remoteKeys?.nextKey
                     ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
                 nextKey
@@ -42,71 +38,65 @@ class CharacterRemoteMediator(
 
             LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
 
-            LoadType.REFRESH -> 1
+            LoadType.REFRESH -> STARTING_PAGE_INDEX
         }
 
         try {
-            var characterFilter: CharacterFilters? = null
-
-            userDataRepository.userData.collectLatest {
-                characterFilter = it.characterFilter
-                val response: RMCharacterResponse = when (characterFilter) {
-                    CharacterFilters.RICK, CharacterFilters.MORTY -> {
-                        network.fetchCharacters(
-                            page ?: STARTING_PAGE_INDEX,
-                            name = characterFilter?.filter,
-                            status = null,
-                            gender = null
-                        )
-                    }
-                    CharacterFilters.DEAD, CharacterFilters.ALIVE -> {
-                        network.fetchCharacters(
-                            page ?: STARTING_PAGE_INDEX,
-                            name = null,
-                            status = characterFilter?.filter,
-                            gender = null
-                        )
-                    }
-                    CharacterFilters.MALE, CharacterFilters.FEMALE -> {
-                        network.fetchCharacters(
-                            page ?: STARTING_PAGE_INDEX,
-                            name = null,
-                            status = null,
-                            gender = characterFilter?.filter
-                        )
-                    }
-                    else -> {
-                        network.fetchCharacters(
-                            page ?: STARTING_PAGE_INDEX,
-                            name = null,
-                            status = null,
-                            gender = null
-                        )
-                    }
-                }
-
-                val characters = response.results
-                val endOfPaginationReached = false
-
-                if (loadType == LoadType.REFRESH) {
-                    val ids = characters.map(RMCharacterNetwork::id)
-                    rmRemoteKeysDao.clearRemoteKeys(ids)
-                    rmDao.clearCharacters()
-                }
-
-                val nextKey = if (endOfPaginationReached) null else page.plus(1)
-                val keys = characters.map {
-                    RMCharacterRemoteKeys(
-                        id = it.id,
-                        prevKey = null,
-                        nextKey = nextKey
+            val response: RMCharacterResponse = when (characterFilter) {
+                CharacterFilters.RICK, CharacterFilters.MORTY -> {
+                    network.fetchCharacters(
+                        page,
+                        name = characterFilter.filter,
+                        status = null,
+                        gender = null
                     )
                 }
-
-                rmRemoteKeysDao.insertAll(keys)
-                rmDao.insertCharacters(characters.map(RMCharacterNetwork::asEntity))
-
+                CharacterFilters.DEAD, CharacterFilters.ALIVE -> {
+                    network.fetchCharacters(
+                        page,
+                        name = null,
+                        status = characterFilter.filter,
+                        gender = null
+                    )
+                }
+                CharacterFilters.MALE, CharacterFilters.FEMALE -> {
+                    network.fetchCharacters(
+                        page,
+                        name = null,
+                        status = null,
+                        gender = characterFilter.filter
+                    )
+                }
+                else -> {
+                    network.fetchCharacters(
+                        page,
+                        name = null,
+                        status = null,
+                        gender = null
+                    )
+                }
             }
+
+            val characters = response.results
+            val endOfPaginationReached = false
+
+            if (loadType == LoadType.REFRESH) {
+                val ids = characters.map(RMCharacterNetwork::id)
+                rmRemoteKeysDao.clearRemoteKeys(ids)
+                rmDao.clearCharacters(ids)
+            }
+
+            val nextKey = if (endOfPaginationReached) null else page.plus(1)
+            val keys = characters.map {
+                RMCharacterRemoteKeys(
+                    id = it.id,
+                    prevKey = null,
+                    nextKey = nextKey
+                )
+            }
+
+            rmRemoteKeysDao.insertAll(keys)
+            rmDao.insertCharacters(characters.map(RMCharacterNetwork::asEntity))
 
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {

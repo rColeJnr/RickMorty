@@ -31,14 +31,14 @@ internal class CharacterRepositoryImpl @Inject constructor(
 ): CharacterRepository {
 
     override fun fetchCharacters(
-        characterFilters: CharacterFilters
+        characterFilters: CharacterFilters,
     ): Flow<PagingData<RMCharacterEntity>> {
         var name = ""
         var status = ""
         var gender = ""
         when (characterFilters) {
             CharacterFilters.RICK, CharacterFilters.MORTY -> {
-                name = characterFilters.filter
+                name = "%${characterFilters.filter}%"
             }
             CharacterFilters.DEAD, CharacterFilters.ALIVE -> {
                 status = characterFilters.filter
@@ -70,7 +70,7 @@ internal class CharacterRepositoryImpl @Inject constructor(
                 network = network,
                 rmDao = rmDao,
                 rmRemoteKeysDao = remoteKeysDao,
-                userDataRepository = userDataRepository
+                characterFilter = characterFilters
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow

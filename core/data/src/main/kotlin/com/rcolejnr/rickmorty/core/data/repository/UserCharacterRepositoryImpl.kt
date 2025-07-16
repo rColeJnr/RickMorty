@@ -28,7 +28,7 @@ internal class UserCharacterRepositoryImpl @Inject constructor(
             characterFilter
         ).cachedIn(scope)
             .combine(userDataRepository.userData) { characters, userData ->
-            characters.map { it.asRMCharacter().mapToUserRMCharacter(userData) }
+                characters.map { it.asRMCharacter().mapToUserRMCharacter(userData) }
         }
     }
 

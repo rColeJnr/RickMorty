@@ -11,6 +11,10 @@ import com.rcolejnr.rickmorty.core.model.UserRMCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,29 +24,26 @@ class CharacterFeedViewModel @Inject constructor(
     private val userCharacterRepository: UserCharacterRepository
 ): ViewModel() {
 
-    val pagingDataFlow: Flow<PagingData<UserRMCharacter>>
+    private val _characterFilter = MutableStateFlow(CharacterFilters.NO_FILTER)
+    val characterFilter: StateFlow<CharacterFilters> = _characterFilter.asStateFlow()
 
-    init {
-        pagingDataFlow = fetchCharacters(0).cachedIn(viewModelScope)
-    }
+    val pagingDataFlow: Flow<PagingData<UserRMCharacter>> = characterFilter
+        .flatMapLatest { filter ->
+            viewModelScope.launch(Dispatchers.IO) {
+                userDataRepository.setCharacterFilter(filter)
+            }
+            userCharacterRepository.observeCharacters(
+                viewModelScope, filter
+            )
+        }
+        .cachedIn(viewModelScope)
 
     fun onEvent(event: CharacterFeedEvents) {
         when (event){
             is CharacterFeedEvents.SelectedFilter -> {
-                fetchCharacters(event.filter)
+                _characterFilter.value = CharacterFilters.entries[event.filter]
             }
         }
-    }
-
-    private fun fetchCharacters(filter: Int): Flow<PagingData<UserRMCharacter>> {
-        val characterFilter = CharacterFilters.entries[filter]
-        viewModelScope.launch(Dispatchers.IO) {
-            userDataRepository.setCharacterFilter(characterFilter)
-        }
-        return userCharacterRepository.observeCharacters(
-            viewModelScope,
-            characterFilter
-        )
     }
 }
 
