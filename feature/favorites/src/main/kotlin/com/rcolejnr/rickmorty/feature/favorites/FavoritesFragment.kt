@@ -29,15 +29,7 @@ class FavoritesFragment: Fragment() {
         )
 
         binding.composeView.setContent {
-//            val animeState by viewModel.feedAnimeUiState.collectAsStateWithLifecycle()
-//            val shouldDisplayAnimeUndoFavorite by viewModel.shouldDisplayAnimeUndoFavorite.collectAsStateWithLifecycle()
-            FavoritesScreen(
-//                state = animeState,
-//                onFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveAnimeFavorite(it)) },
-//                shouldDisplayUndoFavorite = shouldDisplayAnimeUndoFavorite,
-//                undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoAnimeFavoriteRemoval) },
-//                clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) }
-            )
+            FavoritesScreen()
         }
         return binding.root
     }

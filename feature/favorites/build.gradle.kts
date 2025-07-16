@@ -9,4 +9,5 @@ android {
 
 dependencies {
     api(projects.core.data)
+    api(projects.core.ui)
 }

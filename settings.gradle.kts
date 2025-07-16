@@ -32,6 +32,7 @@ include(":core:datastore_proto")
 include(":core:domain")
 include(":core:model")
 include(":core:network")
+include(":core:ui")
 
 include(":feature:character")
 include(":feature:character-feed")

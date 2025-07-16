@@ -24,7 +24,7 @@ private interface RMRetrofitNetworkApi {
         @Query("gender") gender: String?,
     ): RMCharacterResponse
 
-    @GET("character")
+    @GET("character/{id}")
     suspend fun fetchCharacter(
         @Path("id") id: Int
     ): RMCharacterNetwork

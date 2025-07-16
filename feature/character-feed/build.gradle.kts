@@ -9,6 +9,7 @@ android {
 dependencies {
     api(projects.core.data)
     api(projects.core.domain)
+    api(projects.core.ui)
 
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.paging.runtime)

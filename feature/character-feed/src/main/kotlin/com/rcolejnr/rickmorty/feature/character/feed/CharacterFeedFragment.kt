@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -70,7 +69,6 @@ class CharacterFeedFragment: Fragment() {
     }
 
     private fun onCharacterClick(id: Int) {
-        Toast.makeText(context, "Hey there 🙂 $id", Toast.LENGTH_LONG).show()
         val uri = Uri.parse("com.rcolejnr.rmapp://character_fragment/$id")
         navController.navigate(uri)
     }

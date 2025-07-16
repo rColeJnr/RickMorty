@@ -1,6 +1,7 @@
 package com.rcolejnr.rickmorty.core.data.repository
 
 import androidx.paging.PagingData
+import com.rcolejnr.rickmorty.core.data.util.FetchResult
 import com.rcolejnr.rickmorty.core.database.model.RMCharacterEntity
 import com.rcolejnr.rickmorty.core.database.model.RMEpisodeEntity
 import com.rcolejnr.rickmorty.core.database.model.RMLocationEntity
@@ -19,14 +20,14 @@ interface CharacterRepository {
 
     fun fetchCharacter(
         id: Int
-    ): Flow<RMCharacterEntity>
+    ): Flow<FetchResult<RMCharacterEntity>>
 
     fun fetchEpisode(
         id: Int
-    ): Flow<RMEpisodeEntity>
+    ): Flow<FetchResult<RMEpisodeEntity>>
 
     fun fetchLocation(
         id: Int
-    ): Flow<RMLocationEntity>
+    ): Flow<FetchResult<RMLocationEntity>>
 
 }

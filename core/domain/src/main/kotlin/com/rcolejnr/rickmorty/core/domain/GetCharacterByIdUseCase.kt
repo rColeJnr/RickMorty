@@ -2,6 +2,7 @@ package com.rcolejnr.rickmorty.core.domain
 
 import com.rcolejnr.rickmorty.core.data.repository.CharacterRepository
 import com.rcolejnr.rickmorty.core.data.repository.UserDataRepository
+import com.rcolejnr.rickmorty.core.data.util.FetchResult
 import com.rcolejnr.rickmorty.core.database.model.RMCharacterEntity
 import com.rcolejnr.rickmorty.core.database.model.asRMCharacter
 import com.rcolejnr.rickmorty.core.model.UserData
@@ -15,12 +16,20 @@ class GetCharacterByIdUseCase @Inject constructor(
     private val userDataRepository: UserDataRepository
 ){
 
-    operator fun invoke(id: Int): Flow<UserRMCharacter> =
+    operator fun invoke(id: Int): Flow<FetchResult<UserRMCharacter>> =
         characterRepository.fetchCharacter(id)
             .mapToUserCharacter(userDataRepository.userData)
 }
 
-private fun Flow<RMCharacterEntity>.mapToUserCharacter(userDataStream: Flow<UserData>): Flow<UserRMCharacter> =
-    combine(userDataStream) { character, userData ->
-        UserRMCharacter(character.asRMCharacter(), userData)
+private fun Flow<FetchResult<RMCharacterEntity>>.mapToUserCharacter(userDataStream: Flow<UserData>): Flow<FetchResult<UserRMCharacter>> =
+    combine(userDataStream) { result, userData ->
+        when (result) {
+            is FetchResult.Success -> {
+                val character = result.value.asRMCharacter()
+                FetchResult.Success(UserRMCharacter(character, userData))
+            }
+            is FetchResult.Failure -> {
+                FetchResult.Failure(result.error)
+            }
+        }
     }

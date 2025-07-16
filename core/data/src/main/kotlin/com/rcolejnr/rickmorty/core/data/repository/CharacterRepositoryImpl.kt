@@ -6,6 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.rcolejnr.rickmorty.core.data.model.asEntity
+import com.rcolejnr.rickmorty.core.data.util.FetchResult
 import com.rcolejnr.rickmorty.core.database.dao.RMCharacterRemoteKeysDao
 import com.rcolejnr.rickmorty.core.database.dao.RMDao
 import com.rcolejnr.rickmorty.core.database.model.RMCharacterEntity
@@ -27,7 +28,6 @@ internal class CharacterRepositoryImpl @Inject constructor(
     private val rmDao: RMDao,
     private val remoteKeysDao: RMCharacterRemoteKeysDao,
     private val network: RMDataSourceNetwork,
-    private val userDataRepository: UserDataRepository
 ): CharacterRepository {
 
     override fun fetchCharacters(
@@ -83,7 +83,7 @@ internal class CharacterRepositoryImpl @Inject constructor(
         )
             .map{ entities -> entities.asRMCharacter()}
 
-    override fun fetchCharacter(id: Int): Flow<RMCharacterEntity> = channelFlow {
+    override fun fetchCharacter(id: Int): Flow<FetchResult<RMCharacterEntity>> = channelFlow {
         try {
             val character = network.fetchCharacter(
                 id =  id
@@ -92,17 +92,20 @@ internal class CharacterRepositoryImpl @Inject constructor(
             rmDao.insertCharacters(listOf(character.asEntity()))
 
             rmDao.getCharacter(id).collectLatest {
-                send(it)
+                send(FetchResult.Success(it))
             }
 
         } catch (e: IOException) {
             Log.e(TAG, e.localizedMessage ?: "IOException")
+            send(FetchResult.Failure(e.localizedMessage ?: IO_Error))
+
         } catch (e: HttpException) {
             Log.e(TAG, e.localizedMessage ?: "HTTPException")
+            send(FetchResult.Failure(e.localizedMessage ?: NETWORK_ERROR))
         }
     }
 
-    override fun fetchEpisode(id: Int): Flow<RMEpisodeEntity> = channelFlow {
+    override fun fetchEpisode(id: Int): Flow<FetchResult<RMEpisodeEntity>> = channelFlow {
         try {
             val episode = network.fetchEpisode(
                 id =  id
@@ -111,17 +114,20 @@ internal class CharacterRepositoryImpl @Inject constructor(
             rmDao.insertEpisode(episode.asEntity())
 
             rmDao.getEpisode(id).collectLatest {
-                send(it)
+                send(FetchResult.Success(it))
             }
 
         } catch (e: IOException) {
             Log.e(TAG, e.localizedMessage ?: "IOException")
+            send(FetchResult.Failure(e.localizedMessage ?: IO_Error))
+
         } catch (e: HttpException) {
             Log.e(TAG, e.localizedMessage ?: "HTTPException")
+            send(FetchResult.Failure(e.localizedMessage ?: NETWORK_ERROR))
         }
     }
 
-    override fun fetchLocation(id: Int): Flow<RMLocationEntity> = channelFlow {
+    override fun fetchLocation(id: Int): Flow<FetchResult<RMLocationEntity>> = channelFlow {
         try {
             val location = network.fetchLocation(
                 id =  id
@@ -130,16 +136,21 @@ internal class CharacterRepositoryImpl @Inject constructor(
             rmDao.insertLocation(location.asEntity())
 
             rmDao.getLocation(id).collectLatest {
-                send(it)
+                send(FetchResult.Success(it))
             }
 
         } catch (e: IOException) {
             Log.e(TAG, e.localizedMessage ?: "IOException")
+            send(FetchResult.Failure(e.localizedMessage ?: IO_Error))
+
         } catch (e: HttpException) {
             Log.e(TAG, e.localizedMessage ?: "HTTPException")
+            send(FetchResult.Failure(e.localizedMessage ?: NETWORK_ERROR))
         }
     }
 
 }
 
 private const val TAG = "CharacterRepositoryImpl"
+private const val IO_Error = "Error loading data"
+private const val NETWORK_ERROR = "Network error"

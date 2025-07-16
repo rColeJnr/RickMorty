@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.rcolejnr.rickmorty.feature.character.databinding.FeatureCharacterFragmentCharacterBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,15 +29,15 @@ class CharacterFragment: Fragment() {
             false
         )
 
+        arguments?.let {
+            viewModel.setCharacterId(it.getInt("character"))
+        }
+
         binding.composeView.setContent {
-//            val animeState by viewModel.feedAnimeUiState.collectAsStateWithLifecycle()
-//            val shouldDisplayAnimeUndoFavorite by viewModel.shouldDisplayAnimeUndoFavorite.collectAsStateWithLifecycle()
             CharacterScreen(
-//                state = animeState,
-//                onFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveAnimeFavorite(it)) },
-//                shouldDisplayUndoFavorite = shouldDisplayAnimeUndoFavorite,
-//                undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoAnimeFavoriteRemoval) },
-//                clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) }
+                onRetry = this::onRetry,
+                onBackClick = { findNavController().navigateUp() },
+                characterViewModel = viewModel
             )
         }
         return binding.root
@@ -45,5 +46,12 @@ class CharacterFragment: Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun onRetry() {
+        viewModel.setCharacterId(-1)
+        arguments?.let {
+            viewModel.setCharacterId(it.getInt("character"))
+        }
     }
 }

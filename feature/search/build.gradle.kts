@@ -11,6 +11,5 @@ android {
 dependencies {
     api(projects.core.data)
     api(projects.core.domain)
-
-    implementation(libs.compose.coil)
+    api(projects.core.ui)
 }
