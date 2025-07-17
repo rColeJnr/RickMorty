@@ -11,7 +11,8 @@ The Rick & Morty App (rmapp) is an Android application designed to demonstrate b
 ## App Screenshots
 
 Here are some screenshots of the current app UI:
----
+
+
 <img src="https://github.com/rColeJnr/RickMorty/blob/4541276020367a26ce969645659584e5679313e6/favorites.png" width="250" />
 <img src="https://github.com/rColeJnr/RickMorty/blob/4541276020367a26ce969645659584e5679313e6/feed.png" width="250" />
 <img src="https://github.com/rColeJnr/RickMorty/blob/4541276020367a26ce969645659584e5679313e6/summer.png" width="250" />
