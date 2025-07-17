@@ -8,7 +8,26 @@ The Rick & Morty App (rmapp) is an Android application designed to demonstrate b
 - Modularized with scalability in mind
 
 ---
+## App Screenshots
 
+Here are some screenshots of the current app UI:
+### Favorites Screen
+
+<img src="https://github.com/rColeJnr/RickMorty/blob/4541276020367a26ce969645659584e5679313e6/favorites.png" width="250" />
+
+### Character Feed
+
+<img src="https://github.com/rColeJnr/RickMorty/blob/4541276020367a26ce969645659584e5679313e6/feed.png" width="250" />
+
+### Summer Character
+
+<img src="https://github.com/rColeJnr/RickMorty/blob/4541276020367a26ce969645659584e5679313e6/summer.png" width="250" />
+
+### Search Screen
+
+<img src="https://github.com/rColeJnr/RickMorty/blob/4541276020367a26ce969645659584e5679313e6/search.png" width="250" />
+
+---
 ## Architecture & Modularization
 
 The project follows a modular architecture inspired by Google's **Project Nia**, emphasizing clean separation of concerns and scalable design:
