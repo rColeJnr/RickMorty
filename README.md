@@ -18,7 +18,7 @@ Here are some screenshots of the current app UI:
 <img src="https://github.com/rColeJnr/RickMorty/blob/4541276020367a26ce969645659584e5679313e6/summer.png" width="250" />
 <img src="https://github.com/rColeJnr/RickMorty/blob/4541276020367a26ce969645659584e5679313e6/search.png" width="250" />
 
----
+
 ## Architecture & Modularization
 
 The project follows a modular architecture inspired by Google's **Project Nia**, emphasizing clean separation of concerns and scalable design:
