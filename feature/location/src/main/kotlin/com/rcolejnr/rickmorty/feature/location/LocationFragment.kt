@@ -29,15 +29,7 @@ class LocationFragment: Fragment() {
         )
 
         binding.composeView.setContent {
-//            val animeState by viewModel.feedAnimeUiState.collectAsStateWithLifecycle()
-//            val shouldDisplayAnimeUndoFavorite by viewModel.shouldDisplayAnimeUndoFavorite.collectAsStateWithLifecycle()
-            LocationScreen(
-//                state = animeState,
-//                onFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveAnimeFavorite(it)) },
-//                shouldDisplayUndoFavorite = shouldDisplayAnimeUndoFavorite,
-//                undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoAnimeFavoriteRemoval) },
-//                clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) }
-            )
+            LocationScreen()
         }
         return binding.root
     }

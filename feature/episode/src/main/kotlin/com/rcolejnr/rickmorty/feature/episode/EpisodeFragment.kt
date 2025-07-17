@@ -29,15 +29,7 @@ class EpisodeFragment: Fragment() {
         )
 
         binding.composeView.setContent {
-//            val animeState by viewModel.feedAnimeUiState.collectAsStateWithLifecycle()
-//            val shouldDisplayAnimeUndoFavorite by viewModel.shouldDisplayAnimeUndoFavorite.collectAsStateWithLifecycle()
-            EpisodeScreen(
-//                state = animeState,
-//                onFavClick = { viewModel.onEvent(FavoriteUiEvents.RemoveAnimeFavorite(it)) },
-//                shouldDisplayUndoFavorite = shouldDisplayAnimeUndoFavorite,
-//                undoFavoriteRemoval = { viewModel.onEvent(FavoriteUiEvents.UndoAnimeFavoriteRemoval) },
-//                clearUndoState = { viewModel.onEvent(FavoriteUiEvents.ClearUndoState) }
-            )
+            EpisodeScreen()
         }
         return binding.root
     }

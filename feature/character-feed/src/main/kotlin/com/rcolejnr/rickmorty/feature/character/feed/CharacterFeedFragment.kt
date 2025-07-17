@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -59,6 +60,7 @@ class CharacterFeedFragment: Fragment() {
 
     private fun initAdapter() {
         adapter = CharacterFeedAdapter(
+            onFavoriteClick = this::onFavoriteClick,
             onCharacterClick = this::onCharacterClick,
         )
 
@@ -140,6 +142,12 @@ class CharacterFeedFragment: Fragment() {
     private fun onCharacterClick(id: Int) {
         val uri = Uri.parse("com.rcolejnr.rmapp://character_fragment/$id")
         navController.navigate(uri)
+    }
+
+    private fun onFavoriteClick(characterId: Int) {
+        Toast.makeText(requireContext(),
+            getString(R.string.feature_character_feed_added_to_favorites), Toast.LENGTH_SHORT).show()
+        viewModel.onEvent(CharacterFeedEvents.UpdateFavorite(characterId))
     }
 
     override fun onDestroy() {

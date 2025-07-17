@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:elevation="2dp"
+    android:layout_margin="8.dp"
     app:cardCornerRadius="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
         android:orientation="vertical">
 
         <ImageView
@@ -66,6 +65,8 @@
                     android:gravity="center"
                     android:textAlignment="gravity"
                     android:textSize="18sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/vertical_view"
                     app:layout_constraintTop_toBottomOf="@id/name"/>
@@ -79,8 +80,18 @@
                     android:layout_margin="8dp"
                     android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@id/vertical_view"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/favorite_button"
+                    android:src="@drawable/baseline_favorite_24"
+                    app:layout_constraintStart_toEndOf="@id/status"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/vertical_view"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

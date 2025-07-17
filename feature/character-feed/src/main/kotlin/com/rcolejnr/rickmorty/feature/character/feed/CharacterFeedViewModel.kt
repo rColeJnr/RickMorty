@@ -25,7 +25,7 @@ class CharacterFeedViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _characterFilter = MutableStateFlow(CharacterFilters.NO_FILTER)
-    val characterFilter: StateFlow<CharacterFilters> = _characterFilter.asStateFlow()
+    private val characterFilter: StateFlow<CharacterFilters> = _characterFilter.asStateFlow()
 
     val pagingDataFlow: Flow<PagingData<UserRMCharacter>> = characterFilter
         .flatMapLatest { filter ->
@@ -43,10 +43,19 @@ class CharacterFeedViewModel @Inject constructor(
             is CharacterFeedEvents.SelectedFilter -> {
                 _characterFilter.value = CharacterFilters.entries[event.filter]
             }
+            is CharacterFeedEvents.UpdateFavorite -> updateFavorite(event.characterId)
         }
     }
+
+    private fun updateFavorite(characterId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userDataRepository.setCharacterFavoriteId(characterId, true)
+        }
+    }
+
 }
 
 sealed class CharacterFeedEvents{
     data class SelectedFilter(val filter: Int): CharacterFeedEvents()
+    data class UpdateFavorite(val characterId: Int): CharacterFeedEvents()
 }

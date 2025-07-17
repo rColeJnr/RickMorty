@@ -2,18 +2,12 @@ package com.rcolejnr.rickmorty.feature.search
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -46,8 +40,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.rcolejnr.rickmorty.core.model.UserRMCharacter
-import com.rcolejnr.rickmorty.core.ui.CharacterItem
+import com.rcolejnr.rickmorty.core.ui.RMCharactersGrid
 
 @Composable
 internal fun SearchScreen(
@@ -98,8 +91,9 @@ internal fun SearchScreen(
                         )
                     }
                 } else {
-                    SearchResultBody(
+                    RMCharactersGrid (
                         characters = (searchResultUiState as SearchResultUiState.Success).characters,
+                        onFavoriteClick = searchViewModel::onFavoriteClick,
                         onCharacterClick = { onCharacterClick(it) },
                     )
                 }
@@ -242,47 +236,6 @@ private fun RecentSearchesBody(
                         .clickable { onRsqClick(recentSearch) }
                         .fillMaxWidth(),
                 )
-            }
-        }
-    }
-}
-
-@Composable
-private fun SearchResultBody(
-    characters: List<UserRMCharacter>,
-    onCharacterClick: (Int) -> Unit
-) {
-    val state = rememberLazyGridState()
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-    ) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(32.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            state = state
-        ) {
-            if (characters.isNotEmpty()) {
-                item(span = { GridItemSpan(2) }) {
-                    Text(
-                        text = buildAnnotatedString {
-                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                append("Characters")
-                            }
-                        },
-                        style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                    )
-                }
-
-                items(characters) { character ->
-                    CharacterItem(
-                        character,
-                        onCharacterClick = onCharacterClick
-                    )
-                }
             }
         }
     }

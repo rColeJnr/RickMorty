@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -56,7 +55,11 @@ fun CharacterScreen(
                 )
             }
             is CharacterUiState.LoadError -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                Column (modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top){
+                    CharacterToolbar(
+                        onBackClick = onBackClick,
+                        onFavoriteClick = {}
+                    )
                     RMErrorMsg(
                         modifier = Modifier.fillMaxWidth(),
                         (characterUiState as CharacterUiState.LoadError).error,
@@ -78,36 +81,48 @@ fun CharacterScreen(
 }
 
 @Composable
+private fun CharacterToolbar(
+    characterId: Int = -1,
+    characterName: String = "",
+    onBackClick: () -> Unit,
+    onFavoriteClick: (Int) -> Unit,
+) {
+    val context = LocalContext.current
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        IconButton(onClick = { onBackClick() }) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = null
+            )
+        }
+        RMHeadlineText(characterName)
+        IconButton(onClick = {
+            onFavoriteClick(characterId)
+            Toast.makeText(context,
+                context.getString(R.string.feature_character_updated_favorite_status), Toast.LENGTH_SHORT).show()
+        }) {
+            Icon(imageVector = Icons.Filled.Favorite, contentDescription = null)
+        }
+    }
+}
+
+@Composable
 private fun CharacterScreen(
     onBackClick: () -> Unit,
-    onFavoriteClick: (Int, Boolean) -> Unit,
+    onFavoriteClick: (Int) -> Unit,
     character: UserRMCharacter,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
     Column(modifier = modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            IconButton(onClick = { onBackClick() }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = null
-                )
-            }
-            RMHeadlineText(character.name)
-            IconButton(onClick = { 
-                onFavoriteClick(character.id, character.isFavorite)
-                Toast.makeText(context,
-                    context.getString(R.string.feature_character_updated_favorite_status), Toast.LENGTH_SHORT).show()
-            }) {
-                if (character.isFavorite)
-                    Icon(imageVector = Icons.Filled.Favorite, contentDescription = null, tint = Color.Red)
-                else
-                    Icon(imageVector = Icons.Outlined.Favorite, contentDescription = null, tint = Color.LightGray)
-            }
-        }
+        CharacterToolbar(
+            characterId = character.id,
+            characterName = character.name,
+            onBackClick = onBackClick,
+            onFavoriteClick = onFavoriteClick
+        )
         HorizontalDivider(Modifier
             .fillMaxWidth()
             .height(2.dp))

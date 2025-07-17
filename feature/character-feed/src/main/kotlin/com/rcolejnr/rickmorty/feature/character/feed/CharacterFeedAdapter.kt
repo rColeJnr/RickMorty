@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.rcolejnr.rickmorty.core.model.UserRMCharacter
 
 class CharacterFeedAdapter(
+    private val onFavoriteClick: (Int) -> Unit,
     private val onCharacterClick: (Int) -> Unit,
 ): PagingDataAdapter<UserRMCharacter, CharacterViewHolder>(DIFF_UTIL) {
 
@@ -16,7 +17,7 @@ class CharacterFeedAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
-        return CharacterViewHolder.create(parent, onCharacterClick)
+        return CharacterViewHolder.create(parent, onFavoriteClick, onCharacterClick)
     }
 
     companion object {

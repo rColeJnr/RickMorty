@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="feature_character_updated_favorite_status">Updated favorite status ❤️</string>
+    <string name="feature_character_updated_favorite_status">Added to favorites ❤️</string>
 </resources>

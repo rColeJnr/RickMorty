@@ -15,7 +15,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
         preferencesDataSource.userData
 
     override suspend fun setCharacterFavoriteId(characterId: Int, isFavorite: Boolean) {
-        preferencesDataSource.setFavoriteCharactersIds(characterId, true)
+        preferencesDataSource.setFavoriteCharactersIds(characterId, isFavorite)
     }
 
     override suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {

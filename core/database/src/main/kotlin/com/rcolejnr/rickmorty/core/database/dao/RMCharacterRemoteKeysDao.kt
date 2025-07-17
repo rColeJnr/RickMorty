@@ -15,6 +15,6 @@ interface RMCharacterRemoteKeysDao {
     @Query("SELECT * FROM rm_character_remote_keys WHERE id = :id")
     suspend fun remoteKeysId(id: Int): RMCharacterRemoteKeys?
 
-    @Query("DELETE FROM rm_character_remote_keys WHERE id in (:ids)")
-    suspend fun clearRemoteKeys(ids: List<Int>)
+    @Query("DELETE FROM rm_character_remote_keys")
+    suspend fun clearRemoteKeys()
 }

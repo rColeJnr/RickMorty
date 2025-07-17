@@ -2,4 +2,5 @@
 <resources>
     <string name="feature_character_feed_search_for_a_character">Search for a character</string>
     <string name="feature_character_feed_filter_by">Filter by:</string>
+    <string name="feature_character_feed_added_to_favorites">Added to favorites ❤️</string>
 </resources>

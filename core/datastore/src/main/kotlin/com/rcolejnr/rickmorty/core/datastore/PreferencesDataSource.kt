@@ -44,8 +44,10 @@ class PreferencesDataSource @Inject constructor(
             userPreferences.updateData {
                 it.copy {
                     if (isFavorite) {
+                        Log.d("Favorites", "Adding, $isFavorite")
                         characterFavoriteIds.put(characterId, true)
                     } else {
+                        Log.d("Favorites", "Removing, $isFavorite")
                         characterFavoriteIds.remove(characterId)
                     }
                 }

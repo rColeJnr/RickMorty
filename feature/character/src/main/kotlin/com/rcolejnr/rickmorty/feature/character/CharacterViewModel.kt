@@ -49,11 +49,11 @@ class CharacterViewModel @Inject constructor(
             initialValue = CharacterUiState.Loading
         )
 
-    fun updateCharacterFavorite(characterId: Int, isFavorite: Boolean) {
+    fun updateCharacterFavorite(characterId: Int) {
         viewModelScope.launch {
             userDataRepository.setCharacterFavoriteId(
                 characterId = characterId,
-                isFavorite = !isFavorite
+                isFavorite = true
             )
         }
     }

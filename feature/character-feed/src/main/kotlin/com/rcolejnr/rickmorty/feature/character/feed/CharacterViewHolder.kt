@@ -12,6 +12,7 @@ import com.rcolejnr.rickmorty.feature.character.feed.databinding.FeatureCharacte
 
 class CharacterViewHolder (
     binding: FeatureCharacterFeedCharacterEntryBinding,
+    private val onFavoriteClick: (Int) -> Unit,
     private val onCharacterClick: (Int) -> Unit
 ): RecyclerView.ViewHolder(binding.root) {
 
@@ -22,6 +23,9 @@ class CharacterViewHolder (
     private val status = binding.status
 
     init {
+        binding.favoriteButton.setOnClickListener {
+            onFavoriteClick(character.id)
+        }
         binding.root.setOnClickListener {
             onCharacterClick(character.id)
         }
@@ -43,12 +47,13 @@ class CharacterViewHolder (
     companion object {
         fun create(
             parent: ViewGroup,
+            onFavoriteClick: (Int) -> Unit,
             onCharacterClick: (Int) -> Unit,
         ): CharacterViewHolder {
             val itemBinding = FeatureCharacterFeedCharacterEntryBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
-            return CharacterViewHolder(itemBinding, onCharacterClick)
+            return CharacterViewHolder(itemBinding, onFavoriteClick, onCharacterClick)
         }
     }
 }

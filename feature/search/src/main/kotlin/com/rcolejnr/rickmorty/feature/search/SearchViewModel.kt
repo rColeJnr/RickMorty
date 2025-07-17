@@ -1,15 +1,16 @@
 package com.rcolejnr.rickmorty.feature.search
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rcolejnr.rickmorty.core.data.repository.RecentSearchRepository
 import com.rcolejnr.rickmorty.core.data.repository.SearchContentRepository
+import com.rcolejnr.rickmorty.core.data.repository.UserDataRepository
 import com.rcolejnr.rickmorty.core.domain.GetRecentSearchQueriesUseCase
 import com.rcolejnr.rickmorty.core.domain.GetSearchContentsUseCase
 import com.rcolejnr.rickmorty.core.model.UserSearchResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -26,6 +27,7 @@ class SearchViewModel @Inject constructor(
     rsqUseCase: GetRecentSearchQueriesUseCase,
     private val searchContentRepository: SearchContentRepository,
     private val recentSearchRepository: RecentSearchRepository,
+    private val userDataRepository: UserDataRepository,
     private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
@@ -87,6 +89,12 @@ class SearchViewModel @Inject constructor(
     fun clearRecentSearches() {
         viewModelScope.launch {
             recentSearchRepository.clearRecentSearchQueries()
+        }
+    }
+
+    fun onFavoriteClick(characterId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userDataRepository.setCharacterFavoriteId(characterId, true)
         }
     }
 }

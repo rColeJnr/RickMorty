@@ -78,12 +78,11 @@ class CharacterRemoteMediator(
             }
 
             val characters = response.results
-            val endOfPaginationReached = false
+            val endOfPaginationReached = response.info.next == null
 
             if (loadType == LoadType.REFRESH) {
-                val ids = characters.map(RMCharacterNetwork::id)
-                rmRemoteKeysDao.clearRemoteKeys(ids)
-                rmDao.clearCharacters(ids)
+                rmRemoteKeysDao.clearRemoteKeys()
+                rmDao.clearCharacters()
             }
 
             val nextKey = if (endOfPaginationReached) null else page.plus(1)
